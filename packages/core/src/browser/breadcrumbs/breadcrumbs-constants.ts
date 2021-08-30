@@ -30,19 +30,22 @@ export namespace Styles {
 export interface Breadcrumb {
 
     /** An ID of this breadcrumb that should be unique in the breadcrumbs bar. */
-    readonly id: string
+    readonly id: string;
 
     /** The breadcrumb type. Should be the same as the contribution type `BreadcrumbsContribution#type`. */
-    readonly type: symbol
+    readonly type: symbol;
 
     /** The text that will be rendered as label. */
-    readonly label: string
+    readonly label: string;
 
     /** A longer text that will be used as tooltip text. */
-    readonly longLabel: string
+    readonly longLabel: string;
 
     /** A CSS class for the icon. */
-    readonly iconClass?: string
+    readonly iconClass?: string;
+
+    /** CSS classes for the container */
+    readonly containerClass?: string;
 }
 
 export const BreadcrumbsContribution = Symbol('BreadcrumbsContribution');

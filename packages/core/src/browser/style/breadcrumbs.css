@@ -68,6 +68,18 @@
     padding-left: 4px;
 }
 
+.theia-breadcrumbs .theia-breadcrumb-item::before {
+    width: 16px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theia-breadcrumbs .theia-breadcrumb-item:first-of-type::before {
+    content: " ";
+}
+
 .theia-breadcrumb-item-haspopup:hover {
     background: var(--theia-accent-color3);
     cursor: pointer;

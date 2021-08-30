@@ -25,6 +25,7 @@ import { UriSelection } from '@theia/core/lib/common';
 
 export const OutlineBreadcrumbType = Symbol('OutlineBreadcrumb');
 export const BreadcrumbPopupOutlineViewFactory = Symbol('BreadcrumbPopupOutlineViewFactory');
+export const OUTLINE_BREADCRUMB_CONTAINER_CLASS = 'outline-element';
 export interface BreadcrumbPopupOutlineViewFactory {
     (): BreadcrumbPopupOutlineView;
 }
@@ -103,16 +104,36 @@ export class OutlineBreadcrumbsContribution implements BreadcrumbsContribution {
         const outlinePath = this.toOutlinePath(selectedNode);
         if (outlinePath && selectedNode) {
             this.currentBreadcrumbs = outlinePath.map((node, index) =>
-                new OutlineBreadcrumb(node, uri, index.toString(), this.labelProvider.getName(node), 'symbol-icon symbol-icon-center ' + node.iconClass)
+                new OutlineBreadcrumb(
+                    node,
+                    uri,
+                    index.toString(),
+                    this.labelProvider.getName(node),
+                    'symbol-icon symbol-icon-center ' + node.iconClass,
+                    OUTLINE_BREADCRUMB_CONTAINER_CLASS,
+                )
             );
             if (selectedNode.children && selectedNode.children.length > 0) {
-                this.currentBreadcrumbs.push(new OutlineBreadcrumb(selectedNode.children as OutlineSymbolInformationNode[],
-                    uri, this.currentBreadcrumbs.length.toString(), '…', ''));
+                this.currentBreadcrumbs.push(new OutlineBreadcrumb(
+                    selectedNode.children as OutlineSymbolInformationNode[],
+                    uri,
+                    this.currentBreadcrumbs.length.toString(),
+                    '…',
+                    '',
+                    OUTLINE_BREADCRUMB_CONTAINER_CLASS,
+                ));
             }
         } else {
             this.currentBreadcrumbs = [];
             if (this.roots) {
-                this.currentBreadcrumbs.push(new OutlineBreadcrumb(this.roots, uri, this.currentBreadcrumbs.length.toString(), '…', ''));
+                this.currentBreadcrumbs.push(new OutlineBreadcrumb(
+                    this.roots,
+                    uri,
+                    this.currentBreadcrumbs.length.toString(),
+                    '…',
+                    '',
+                    OUTLINE_BREADCRUMB_CONTAINER_CLASS
+                ));
             }
         }
         this.onDidChangeBreadcrumbsEmitter.fire(uri);
@@ -187,7 +208,8 @@ export class OutlineBreadcrumb implements Breadcrumb {
         readonly uri: URI,
         readonly index: string,
         readonly label: string,
-        readonly iconClass: string
+        readonly iconClass: string,
+        readonly containerClass: string,
     ) { }
 
     get id(): string {

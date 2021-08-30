@@ -26,6 +26,10 @@ import { FileStat } from '../../common/files';
 
 export const FilepathBreadcrumbType = Symbol('FilepathBreadcrumb');
 
+export interface FilepathBreadccrumbClassNameFactory {
+    (location: URI, index: number): string;
+}
+
 @injectable()
 export class FilepathBreadcrumbsContribution implements BreadcrumbsContribution {
 
@@ -50,15 +54,30 @@ export class FilepathBreadcrumbsContribution implements BreadcrumbsContribution 
         if (uri.scheme !== 'file') {
             return [];
         }
+        const getContainerClass = this.getContainerClassCreator(uri);
+        const getIconClass = this.getIconClassCreator(uri);
         return uri.allLocations
-            .map((location, index) => new FilepathBreadcrumb(
-                location,
-                this.labelProvider.getName(location),
-                this.labelProvider.getLongName(location),
-                index === 0 ? this.labelProvider.getIcon(location) + ' file-icon' : ''
-            ))
+            .map((location, index) => {
+                const icon = getIconClass(location, index);
+                const containerClass = getContainerClass(location, index);
+                return new FilepathBreadcrumb(
+                    location,
+                    this.labelProvider.getName(location),
+                    this.labelProvider.getLongName(location),
+                    icon,
+                    containerClass,
+                );
+            })
             .filter(b => this.filterBreadcrumbs(uri, b))
             .reverse();
+    }
+
+    protected getContainerClassCreator(fileURI: URI): FilepathBreadccrumbClassNameFactory {
+        return (location, index) => location.isEqual(fileURI) ? 'file' : 'folder';
+    }
+
+    protected getIconClassCreator(fileURI: URI): FilepathBreadccrumbClassNameFactory {
+        return (location, index) => location.isEqual(fileURI) ? this.labelProvider.getIcon(location) + ' file-icon' : '';
     }
 
     protected filterBreadcrumbs(_: URI, breadcrumb: FilepathBreadcrumb): boolean {

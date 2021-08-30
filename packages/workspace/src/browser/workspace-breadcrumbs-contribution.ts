@@ -15,7 +15,7 @@
  ********************************************************************************/
 
 import { FilepathBreadcrumb } from '@theia/filesystem/lib/browser/breadcrumbs/filepath-breadcrumb';
-import { FilepathBreadcrumbsContribution } from '@theia/filesystem/lib/browser/breadcrumbs/filepath-breadcrumbs-contribution';
+import { FilepathBreadccrumbClassNameFactory, FilepathBreadcrumbsContribution } from '@theia/filesystem/lib/browser/breadcrumbs/filepath-breadcrumbs-contribution';
 import { inject, injectable } from '@theia/core/shared/inversify';
 import { WorkspaceService } from './workspace-service';
 import URI from '@theia/core/lib/common/uri';
@@ -25,6 +25,28 @@ export class WorkspaceBreadcrumbsContribution extends FilepathBreadcrumbsContrib
 
     @inject(WorkspaceService)
     protected readonly workspaceService: WorkspaceService;
+
+    getContainerClassCreator(fileURI: URI): FilepathBreadccrumbClassNameFactory {
+        const workspaceRoot = this.workspaceService.getWorkspaceRootUri(fileURI);
+        return (location, index) => {
+            if (location.isEqual(fileURI)) {
+                return 'file';
+            } else if (workspaceRoot?.isEqual(location)) {
+                return 'root_folder';
+            }
+            return 'folder';
+        };
+    }
+
+    getIconClassCreator(fileURI: URI): FilepathBreadccrumbClassNameFactory {
+        const workspaceRoot = this.workspaceService.getWorkspaceRootUri(fileURI);
+        return (location, index) => {
+            if (location.isEqual(fileURI) || workspaceRoot?.isEqual(location)) {
+                return this.labelProvider.getIcon(location) + ' file-icon';
+            }
+            return '';
+        };
+    }
 
     protected filterBreadcrumbs(uri: URI, breadcrumb: FilepathBreadcrumb): boolean {
         const workspaceRootUri = this.workspaceService.getWorkspaceRootUri(uri);

@@ -23,7 +23,8 @@ export class FilepathBreadcrumb implements Breadcrumb {
         readonly uri: URI,
         readonly label: string,
         readonly longLabel: string,
-        readonly iconClass: string
+        readonly iconClass: string,
+        readonly containerClass: string,
     ) { }
 
     get id(): string {
