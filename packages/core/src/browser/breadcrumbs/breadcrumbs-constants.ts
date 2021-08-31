@@ -44,7 +44,7 @@ export interface Breadcrumb {
     /** A CSS class for the icon. */
     readonly iconClass?: string;
 
-    /** CSS classes for the container */
+    /** CSS classes for the container. */
     readonly containerClass?: string;
 }
 

@@ -49,11 +49,11 @@ export class BreadcrumbsService {
     }
 
     /**
-     * Subscribe to this event emitter to be notifed when the breadcrumbs have changed.
+     * Subscribe to this event emitter to be notified when the breadcrumbs have changed.
      * The URI is the URI of the editor the breadcrumbs have changed for.
      */
     get onDidChangeBreadcrumbs(): Event<URI> {
-        // This lazy subscription is to address problems in iversify's instantiation routine
+        // This lazy subscription is to address problems in inversify's instantiation routine
         // related to use of the IconThemeService by different components instantiated by the
         // ContributionProvider.
         if (!this.hasSubscribed) {
@@ -63,7 +63,7 @@ export class BreadcrumbsService {
     }
 
     /**
-     * Subscribes to the onDidChangeBreadcrumbs events for all contributions
+     * Subscribes to the onDidChangeBreadcrumbs events for all contributions.
      */
     protected subscribeToContributions(): void {
         this.hasSubscribed = true;

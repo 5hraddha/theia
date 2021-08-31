@@ -15,7 +15,7 @@
  ********************************************************************************/
 
 import { FilepathBreadcrumb } from '@theia/filesystem/lib/browser/breadcrumbs/filepath-breadcrumb';
-import { FilepathBreadccrumbClassNameFactory, FilepathBreadcrumbsContribution } from '@theia/filesystem/lib/browser/breadcrumbs/filepath-breadcrumbs-contribution';
+import { FilepathBreadcrumbClassNameFactory, FilepathBreadcrumbsContribution } from '@theia/filesystem/lib/browser/breadcrumbs/filepath-breadcrumbs-contribution';
 import { inject, injectable } from '@theia/core/shared/inversify';
 import { WorkspaceService } from './workspace-service';
 import URI from '@theia/core/lib/common/uri';
@@ -26,7 +26,7 @@ export class WorkspaceBreadcrumbsContribution extends FilepathBreadcrumbsContrib
     @inject(WorkspaceService)
     protected readonly workspaceService: WorkspaceService;
 
-    getContainerClassCreator(fileURI: URI): FilepathBreadccrumbClassNameFactory {
+    getContainerClassCreator(fileURI: URI): FilepathBreadcrumbClassNameFactory {
         const workspaceRoot = this.workspaceService.getWorkspaceRootUri(fileURI);
         return (location, index) => {
             if (location.isEqual(fileURI)) {
@@ -38,7 +38,7 @@ export class WorkspaceBreadcrumbsContribution extends FilepathBreadcrumbsContrib
         };
     }
 
-    getIconClassCreator(fileURI: URI): FilepathBreadccrumbClassNameFactory {
+    getIconClassCreator(fileURI: URI): FilepathBreadcrumbClassNameFactory {
         const workspaceRoot = this.workspaceService.getWorkspaceRootUri(fileURI);
         return (location, index) => {
             if (location.isEqual(fileURI) || workspaceRoot?.isEqual(location)) {

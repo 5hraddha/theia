@@ -26,7 +26,7 @@ import { FileStat } from '../../common/files';
 
 export const FilepathBreadcrumbType = Symbol('FilepathBreadcrumb');
 
-export interface FilepathBreadccrumbClassNameFactory {
+export interface FilepathBreadcrumbClassNameFactory {
     (location: URI, index: number): string;
 }
 
@@ -72,11 +72,11 @@ export class FilepathBreadcrumbsContribution implements BreadcrumbsContribution 
             .reverse();
     }
 
-    protected getContainerClassCreator(fileURI: URI): FilepathBreadccrumbClassNameFactory {
+    protected getContainerClassCreator(fileURI: URI): FilepathBreadcrumbClassNameFactory {
         return (location, index) => location.isEqual(fileURI) ? 'file' : 'folder';
     }
 
-    protected getIconClassCreator(fileURI: URI): FilepathBreadccrumbClassNameFactory {
+    protected getIconClassCreator(fileURI: URI): FilepathBreadcrumbClassNameFactory {
         return (location, index) => location.isEqual(fileURI) ? this.labelProvider.getIcon(location) + ' file-icon' : '';
     }
 
